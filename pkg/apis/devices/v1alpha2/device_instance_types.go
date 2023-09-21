@@ -258,6 +258,124 @@ type VisitorConfig struct {
 	// CustomizedProtocol represents a set of visitor config fields of bluetooth protocol.
 	// +optional
 	CustomizedProtocol *VisitorConfigCustomized `json:"customizedProtocol,omitempty"`
+	// PushMethod represents the protocol used to push data,
+	// please ensure that the mapper can access the destination address.
+	// +optional
+	PushMethod *VisitorPushMethod `json:"pushMethod,omitempty"`
+	// DbProvider represents the protocol used to push data to database,
+	// please ensure that the mapper can access the destination address.
+	// +optional
+	DbProvider *DbProviderConfig `json:"dbProvider,omitempty"`
+}
+type DbProviderConfig struct {
+	// method configuration for database
+	// +optional
+	Influx *DbProviderInflux `json:"influx,omitempty"`
+	Redis  *DbProviderRedis  `json:"redis,omitempty"`
+	Tdengine *DbProviderTdengine `json:"tdengine,omitempty"`
+}
+type DbProviderTdengine struct {
+        // TdengineConfigData of tdengine database
+        // +optional
+        TdengineConfigData *TdengineConfigData `json:"tdengineConfigData"`
+}
+type TdengineConfigData struct {
+        // Dsn of Tdengine database
+        // +optional
+        Dsn string `json:"dsn,omitempty"`
+}
+type DbProviderRedis struct {
+        // RedisConfigData of redis database
+        // +optional
+        RedisConfigData *RedisConfigData `json:"redisConfigData"`
+}
+type RedisConfigData struct {
+	// Addr of Redis database
+	// +optional
+	Addr string `json:"addr,omitempty"`
+	// Password of Redis database
+	// +optional
+	Password string `json:"password,omitempty"`
+	// Db of Redis database
+	// +optional
+	Db int64 `json:"db,omitempty"`
+	// Poolsize of Redis database
+	// +optional
+	Poolsize int64 `json:"poolsize,omitempty"`
+	// MinIdleConns of Redis database
+	// +optional
+	MinIdleConns int64 `json:"minIdleConns,omitempty"`
+}
+type DbProviderInflux struct {
+	// ConfigData of influx database
+	// +optional
+	ConfigData *ConfigData `json:"configData"`
+	// DataStandard of the data to influx database
+	// +optional
+	DataStandard *DataStandard `json:"dataStandard"`
+}
+type ConfigData struct {
+	// Url of influx database
+	// +optional
+	Url string `json:"url,omitempty"`
+	// Token of the user in influx database
+	// +optional
+	Token string `json:"token,omitempty"`
+	// Org of the user in influx database
+	// +optional
+	Org string `json:"org,omitempty"`
+	// Bucket of the user in influx database
+	// +optional
+	Bucket string `json:"bucket,omitempty"`
+}
+type DataStandard struct {
+	// Measurement of the user data
+	// +optional
+	Measurement string `json:"measurement,omitempty"`
+	// TagKey of the user data
+	// +optional
+	TagKey string `json:"tagKey,omitempty"`
+	// TagValue of the user data
+	// +optional
+	TagValue string `json:"tagValue,omitempty"`
+	// FieldKey of the user data
+	// +optional
+	FieldKey string `json:"fieldKey,omitempty"`
+}
+type VisitorPushMethod struct {
+	// HTTP Push method configuration for http
+	// +optional
+	HTTP *PushMethodHTTP `json:"http,omitempty"`
+	// CustomizedProtocol configuration for customized push method
+	// +optional
+	CustomizedProtocol *VisitorConfigCustomized `json:"customizedProtocol,omitempty"`
+	// MQTT Push method configuration for mqtt
+	// +optional
+	MQTT *PushMethodMQTT `json:"mqtt,omitempty"`
+}
+type PushMethodHTTP struct {
+	// +optional
+	HostName string `json:"hostName,omitempty"`
+	// +optional
+	Port int64 `json:"port,omitempty"`
+	// +optional
+	RequestPath string `json:"requestPath,omitempty"`
+	// +optional
+	Timeout int64 `json:"timeout,omitempty"`
+}
+type PushMethodMQTT struct {
+	// broker address, like mqtt://127.0.0.1:1883
+	// +optional
+	Address string `json:"address,omitempty"`
+	// publish topic for mqtt
+	// +optional
+	Topic string `json:"topic,omitempty"`
+	// qos of mqtt publish param
+	// +optional
+	QoS int32 `json:"qos,omitempty"`
+	// Is the message retained
+	// +optional
+	Retained bool `json:"retained,omitempty"`
 }
 
 // Common visitor configurations for bluetooth protocol
